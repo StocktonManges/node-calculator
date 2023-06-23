@@ -1,23 +1,34 @@
 var rs = require('readline-sync');
 
-function getEquation() {
-  return rs.question('Please enter the desired equation separated by spaces: ');
+function getOperation() {
+  let operation = rs.question('What operation would you like to perform? ');
+  if (operation === "/" 
+  || operation ===  "*" 
+  || operation === "-" 
+  || operation === "+") {
+    return operation
+  }
+  else {
+    console.log('That is not a valid operation.')
+    getOperation();
+  }
 }
 
-function splitEquation(equationString) {
-  return equationString.split(' ');
+function inputFirstNum() {
+  return rs.questionInt('Please enter the first number: ');
 }
 
-function run(equationString) {
-  let result = new Function(`return ${equationString};`).call();
-  console.log(result);
+function inputSecondNum() {
+  return rs.questionInt('Please enter the second number: ');
 }
 
-function nodeCalculator() {
-  let equationString = getEquation();
-  console.log(equationString);
-  let result = run(equationString);
-  console.log(`The result is: ${result}`);
+function run(operation) {
+  return new Function('return ' + operation + ';').call();
 }
 
-nodeCalculator();
+let operation = getOperation();
+let firstNum = inputFirstNum();
+let secondNum = inputSecondNum();
+let result = run(firstNum + operation + secondNum);
+
+console.log(`The result is: ${result}.`);
